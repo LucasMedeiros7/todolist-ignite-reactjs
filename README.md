@@ -2,13 +2,13 @@
   <img width="600" src="./public/Capa.png" alt="layout do projeto"> 
 </p>
 
-<p align="center" style="margin-top: 18px> 
+<br/>
 
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
 
-</p>
+
 
 
 # Sobre o desafio
