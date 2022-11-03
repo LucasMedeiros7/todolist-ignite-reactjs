@@ -31,9 +31,27 @@ export function App() {
   }
 
   function deleteTask(taskId: string) {
-    const tasksUpdated = tasks.filter(task => task.id !== taskId);
-    setTasks(tasksUpdated);
+    const updatedTasks = tasks.filter(task => task.id !== taskId);
+    setTasks(updatedTasks);
   }
+
+  function updateTask(taskId: string) {
+    const updatedTasks = tasks.map(task => {
+      if (task.id === taskId) {
+        return {
+          ...task,
+          isComplete: !task.isComplete
+        };
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+  }
+
+  const completedTasks = tasks.reduce((acc, task) => {
+    if (task.isComplete) return acc + 1;
+    return acc;
+  }, 0);
 
   return (
     <div
@@ -77,7 +95,11 @@ export function App() {
           </p>
 
           <p>
-            Concluídas <span>0</span>
+            Concluídas
+            <span>
+              {' '}
+              {completedTasks > 0 ? `${completedTasks} de ${tasks.length}` : 0}
+            </span>
           </p>
         </header>
         <div>
@@ -86,6 +108,7 @@ export function App() {
               <TaskCard
                 key={task.id}
                 onDeleteTask={deleteTask}
+                onUpdateTask={updateTask}
                 id={task.id}
                 title={task.title}
                 isComplete={task.isComplete}
