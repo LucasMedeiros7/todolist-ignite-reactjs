@@ -1,5 +1,6 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { ChangeEvent, FormEvent, useState } from 'react';
+
 import { TaskCard } from './components/TaskCard';
 
 type task = {
@@ -14,7 +15,8 @@ export function App() {
 
   function handleAddNewTask(event: FormEvent): void {
     event.preventDefault();
-    if (!inputData) return;
+    if (inputData === '') return;
+
     const newTask = {
       id: uuidv4(),
       title: inputData,
@@ -26,6 +28,11 @@ export function App() {
 
   function handleChangeInputData(event: ChangeEvent<HTMLInputElement>) {
     setInputData(event.target.value);
+  }
+
+  function deleteTask(taskId: string) {
+    const tasksUpdated = tasks.filter(task => task.id !== taskId);
+    setTasks(tasksUpdated);
   }
 
   return (
@@ -78,6 +85,7 @@ export function App() {
             return (
               <TaskCard
                 key={task.id}
+                onDeleteTask={deleteTask}
                 id={task.id}
                 title={task.title}
                 isComplete={task.isComplete}
