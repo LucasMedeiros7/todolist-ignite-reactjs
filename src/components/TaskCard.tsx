@@ -1,4 +1,5 @@
 import { Trash } from 'phosphor-react';
+import './TaskCard.css';
 
 interface taskProps {
   id: string;
@@ -20,24 +21,24 @@ export function TaskCard(props: taskProps) {
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      <div style={{ display: 'flex' }}>
-        <input
-          onClick={handleUpdateTask}
-          type="radio"
-          name=""
-          id=""
-          checked={isComplete}
-        />
-        <p>{title}</p>
+    <div className="task-card">
+      <div className="card">
+        <input onClick={handleUpdateTask} type="checkbox" checked={isComplete} />
+        {isComplete ? (
+          <p>
+            <s className="done">{title}</s>
+          </p>
+        ) : (
+          <p>{title} </p>
+        )}
       </div>
 
       <Trash
         onClick={handleDeleteComment}
         style={{ cursor: 'pointer' }}
-        size={32}
+        size={24}
         weight="light"
-        color="black"
+        color="#808080"
       />
     </div>
   );

@@ -1,7 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ClipboardText, PlusCircle } from 'phosphor-react';
+import { FormEvent, useState } from 'react';
 
 import { TaskCard } from './components/TaskCard';
+import logoTODO from './assets/todo.svg';
+import logoRocket from './assets/rocket.svg';
+
+import './App.css';
 
 type task = {
   id: string;
@@ -16,7 +21,6 @@ export function App() {
   function handleAddNewTask(event: FormEvent): void {
     event.preventDefault();
     if (inputData === '') return;
-
     const newTask = {
       id: uuidv4(),
       title: inputData,
@@ -24,10 +28,6 @@ export function App() {
     };
     setTasks([...tasks, newTask]);
     setInputData('');
-  }
-
-  function handleChangeInputData(event: ChangeEvent<HTMLInputElement>) {
-    setInputData(event.target.value);
   }
 
   function deleteTask(taskId: string) {
@@ -54,67 +54,63 @@ export function App() {
   }, 0);
 
   return (
-    <div
-      style={{
-        width: '100vw',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center'
-      }}
-    >
-      <form onSubmit={handleAddNewTask} style={{ display: 'flex' }}>
-        <input
-          style={{ paddingLeft: '15px' }}
-          type="text"
-          placeholder="Adicione uma nova tarefa"
-          value={inputData}
-          onChange={handleChangeInputData}
-        />
+    <div className="container">
+      <header className="header-container">
+        <figure className="logo">
+          <img src={logoRocket} alt="Logo de foguete" />
+          <img src={logoTODO} alt="Logo escrito todo" />
+        </figure>
 
-        <button
-          style={{
-            width: '78px',
-            height: '50px',
-            cursor: 'pointer'
-          }}
-        >
-          Criar +
-        </button>
-      </form>
+        <form onSubmit={handleAddNewTask}>
+          <input
+            type="text"
+            placeholder="Adicione uma nova tarefa"
+            value={inputData}
+            onChange={event => setInputData(event.target.value)}
+          />
+          <button>
+            Criar <PlusCircle size={18} weight="bold" />
+          </button>
+        </form>
+      </header>
 
-      <main>
-        <header
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '400px'
-          }}
-        >
-          <p>
+      <main className="tasks-container">
+        <header>
+          <p className="created-tasks">
             Tarefas criadas <span>{tasks.length}</span>
           </p>
 
-          <p>
-            Concluídas
+          <p className="completed-tasks">
+            Concluídas{' '}
             <span>
-              {' '}
-              {completedTasks > 0 ? `${completedTasks} de ${tasks.length}` : 0}
+              {tasks.length > 0 ? `${completedTasks} de ${tasks.length}` : 0}
             </span>
           </p>
         </header>
-        <div>
-          {tasks?.map(task => {
-            return (
-              <TaskCard
-                key={task.id}
-                onDeleteTask={deleteTask}
-                onUpdateTask={updateTask}
-                id={task.id}
-                title={task.title}
-                isComplete={task.isComplete}
-              />
-            );
-          })}
+        <div className="all-tasks ">
+          {tasks.length > 0 ? (
+            tasks?.map(task => {
+              return (
+                <TaskCard
+                  key={task.id}
+                  onDeleteTask={deleteTask}
+                  onUpdateTask={updateTask}
+                  id={task.id}
+                  title={task.title}
+                  isComplete={task.isComplete}
+                />
+              );
+            })
+          ) : (
+            <div className="no-tasks">
+              <ClipboardText color="#808080" size={52} weight="light" />
+              <p>
+                <strong>Você ainda não tem tarefas cadastradas</strong>
+                <br />
+                Crie tarefas e organize seus itens a fazer
+              </p>
+            </div>
+          )}
         </div>
       </main>
     </div>
